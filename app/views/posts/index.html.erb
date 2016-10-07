@@ -1,13 +1,15 @@
 <h1>Earthquake Quick to Know</h1>
 
-<%= link_to "New Post", new_post_path %>
+ <%#= link_to "New Post", new_post_path %>
 <br>
 
 
-<% @posts.each do |post| %>
-  <%= link_to post.title, post_path(post) %>
-  <%= post.created_at  %>
-  <br>
-<% end %>
+<ul>
+  <% @posts.each do |post| %>
+    <li><%= link_to post.title, post_path(post) %>
+    <%= post.created_at  %></li>
+    <br>
+  <% end %>
+</ul>
 
 <%= paginate @posts %>

@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_post, :only => [:edit, :update, :destroy]
   def index
     @posts = Post.page(params[:page]).per(5)
   end
@@ -30,11 +31,9 @@ class PostsController < ApplicationController
   end
 
   def edit
-    @post = current_user.posts.find(params[:id])
   end
 
   def update
-    @post = current_user.posts.find(params[:id])
     if @post.update(params_post)
       flash[:notice] = "Topic Updated!"
       redirect_to :action => :show
@@ -45,13 +44,17 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post = current_user.posts.find(params[:id])
     @post.destroy
+    @post.comments.destroy_all
     redirect_to :action => :index
   end
 
   private
   def params_post
     params.require(:post).permit(:title, :content, :category_id)
+  end
+
+  def set_post
+    @post = current_user.posts.find(params[:id])
   end
 end

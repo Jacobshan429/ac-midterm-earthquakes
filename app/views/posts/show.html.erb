@@ -1,7 +1,8 @@
 <h1>Earthquake Quick to Know</h1>
-<h3><%= @post.title  %></h3>
+<h3>Title: <%= @post.title  %></h3>
+<p>Content: </p>
 <p><%= @post.content  %></p>
-<p><%= @post.category.try(:name) %></p>
+<p>Category: <%= @post.category.try(:name) %></p>
 <br>
 <% if current_user == @post.user %>
     <%= link_to "Edit", edit_post_path(@post) %>
