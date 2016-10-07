@@ -6,6 +6,11 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    if params[:edit_comment]
+      @comment = Comment.find(params[:edit_comment])
+    else
+      @comment = Comment.new
+    end
   end
 
 

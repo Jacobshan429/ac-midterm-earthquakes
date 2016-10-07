@@ -8,9 +8,26 @@
 <br>
 
 
+
+
 <% if current_user == @post.user %>
     <%= link_to "Edit", edit_post_path(@post) %>
     <%= link_to "Delete", post_path(@post), :method => :delete, data: { confirm: "ARE YOU SURE?" } %>
 <% end %>
+<br>
+<% if params[:edit_comment]
+  url = post_comment_path(@post,@comment)
+  method_1 = :patch
+else
+  url = post_comments_path(@post)
+  method_1 = :post
+end %>
+
+<%= form_for @comment, :url => url, :method => method_1 do |f| %>
+  <%= f.text_area :content %><br>
+  <%= f.submit %>
+<% end %>
+
+
 <br>
 <%= link_to "Back to home", posts_path  %>
