@@ -45,7 +45,6 @@ class PostsController < ApplicationController
 
   def destroy
     @post.destroy
-    @post.comments.destroy_all
     redirect_to :action => :index
   end
 
