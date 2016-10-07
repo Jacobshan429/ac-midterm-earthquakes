@@ -1,8 +1,13 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!
   def index
-    @post = Post.all
+    @posts = Post.all
   end
+
+  def show
+    @post = Post.find(params[:id])
+  end
+
 
   def new
     @post = current_user.posts.new
@@ -15,7 +20,12 @@ class PostsController < ApplicationController
       redirect_to posts_path
     else
       flash[:alert] = "Failed to save!"
-      render "new"
+      render :new
     end
+  end
+
+  private
+  def params_post
+    params.require(:post).permit(:title, :content)
   end
 end

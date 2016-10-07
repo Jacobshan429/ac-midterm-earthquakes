@@ -1,3 +1,11 @@
 <h1>this is index</h1>
 
 <%= link_to "New Post", new_post_path %>
+<br>
+
+
+<% @posts.each do |post| %>
+  <%= link_to post.title, post_path(post) %>
+  <%= post.created_at  %>
+  <br>
+<% end %>
