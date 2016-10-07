@@ -1,20 +1,14 @@
-<h1>This is post show page</h1>
-
-
+<h1>Earthquake Quick to Know</h1>
 <h3><%= @post.title  %></h3>
 <p><%= @post.content  %></p>
 <p><%= @post.category.try(:name) %></p>
-
 <br>
-
-
-
-
 <% if current_user == @post.user %>
     <%= link_to "Edit", edit_post_path(@post) %>
     <%= link_to "Delete", post_path(@post), :method => :delete, data: { confirm: "ARE YOU SURE?" } %>
 <% end %>
 <br>
+
 <% if params[:edit_comment]
   url = post_comment_path(@post,@comment)
   method_1 = :patch
@@ -23,9 +17,25 @@ else
   method_1 = :post
 end %>
 
-<%= form_for @comment, :url => url, :method => method_1 do |f| %>
-  <%= f.text_area :content %><br>
-  <%= f.submit %>
+<% if user_signed_in? %>
+  <%= form_for @comment, :url => url, :method => method_1 do |f| %>
+    <%= f.text_area :content %><br>
+    <%= f.submit %>
+  <% end %>
+<% end %>
+
+<br>
+
+<h2><%= @post.comments.count  %> Comments</h2>
+<% @post.comments.each do |comment| %>
+  <p><%= comment.content %></p>
+  <p>By <%= comment.try(:user).email %></p>
+  <% if current_user == comment.user %>
+    <p>
+      <%= link_to "Edit", post_path(@post, :edit_comment => comment) %>
+      <%= link_to "Delete", post_comment_path(@post, comment),:method => :delete %>
+    </p>
+  <% end %>
 <% end %>
 
 

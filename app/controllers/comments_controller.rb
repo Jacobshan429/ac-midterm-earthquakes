@@ -9,9 +9,29 @@ class CommentsController < ApplicationController
       redirect_to post_path(@post)
     else
       flash[:alert] = "Failed!"
-      render :controller => :posts, :action => :show
+      redirect_to post_path(@post)
     end
   end
+
+  def update
+    @post = current_user.posts.find(params[:post_id])
+    @comment = @post.comments.find(params[:id])
+    if @comment.update(params_comment)
+      flash[:notice] = "Updated Comment Succeed!"
+      redirect_to post_path(@post)
+    else
+      flash[:alert] = "Failed!"
+      redirect_to post_path(@post)
+    end
+  end
+
+  def destroy
+    @post = Post.find(params[:post_id])
+    @comment = @post.comments.find(params[:id])
+    @comment.destroy
+    redirect_to post_path(@post)
+  end
+
 
 
   private

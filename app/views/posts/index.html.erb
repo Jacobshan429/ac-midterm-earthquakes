@@ -1,4 +1,4 @@
-<h1>this is index</h1>
+<h1>Earthquake Quick to Know</h1>
 
 <%= link_to "New Post", new_post_path %>
 <br>
@@ -9,3 +9,5 @@
   <%= post.created_at  %>
   <br>
 <% end %>
+
+<%= paginate @posts %>
